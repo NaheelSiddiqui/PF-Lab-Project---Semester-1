@@ -2,28 +2,29 @@
 #include <stdlib.h>
 #include <time.h>
 
-void generateblocks(char grid[11][9]) {
+void generateblocks(char grid[11][9], int *block) {
   srand(time(NULL));
 
   int generate = rand() % 7 + 1;
+  *block = generate;
   int start, start1, start2, start3, start4, start5, start6, end;
 
   switch (generate) {
-    case 1:
-      start = rand() % 6 + 1;
+    case 1:  // block O
+      start = rand() % 6 + 1;  
       for (int i = 0; i < 2; i++) {
         for (int j = start; j < (start + 2); j++) {
           grid[i][j] = '#';
         }
       }
       break;
-    case 2:
+    case 2: // block I
       start2 = rand() % 7 + 1;
       for (int i = 0; i < 4; i++) {
         grid[i][start2] = '#';
       }
       break;
-    case 3:
+    case 3: // block S
       end = rand() % 5 + 3;
       for (int i = end; i > (end - 2); i--) {
         grid[0][i] = '#';
@@ -32,7 +33,7 @@ void generateblocks(char grid[11][9]) {
         grid[1][i] = '#';
       }
       break;
-    case 4:
+    case 4: // block Z
       start3 = rand() % 5 + 2;
       for (int i = start3 - 1; i < (start3 + 1); i++) {
         grid[0][i] = '#';
@@ -41,21 +42,21 @@ void generateblocks(char grid[11][9]) {
         grid[1][i] = '#';
       }
       break;
-    case 5:
+    case 5: // block L
       start4 = rand() % 6 + 1;
       for (int i = 0; i < 3; i++) {
         grid[i][start4] = '#';
       }
       grid[2][start4 + 1] = '#';
       break;
-    case 6:
+    case 6: // block J
       start5 = rand() % 6 + 2;
       for (int i = 0; i < 3; i++) {
         grid[i][start5] = '#';
       }
       grid[2][start5 - 1] = '#';
       break;
-    case 7:
+    case 7: // block T
       start6 = rand() % (5 - 2) + 3;
       for (int i = start6; i < (start6 + 3); i++) {
         grid[0][i] = '#';
@@ -161,10 +162,13 @@ int main() {
     grid[i][8] = 'X';
   }
 
-  generateblocks(grid);  // Pass the grid to the function
+  int block = 0;
+  generateblocks(grid, &block); // Pass the grid to the function
+  printf("%d", block); 
   startgame();
 
   while (1) {
+    int rotate = 1;  // 1 means 0 degree, 2 means 90 degree, 3 means 180 degree, 4 means 270 degree, 5 means 0 degree
     printgrid(grid);
     char choice;
     printf("\nEnter choice: ");
@@ -182,6 +186,9 @@ int main() {
         moveright(grid);
         system("cls");
         break;
+      case 'W':
+        rotateblock(grid, block, &rotate);
+        system("cls");
       default:
         system("cls");
     }
@@ -190,18 +197,8 @@ int main() {
   return 0;
 }
 
-// move blocks right - Done
-// move blocks left - Done
-// move blocks down - Done
 // rotate 90 degree clockwise
 // implement blocks falling after certain time
 // what happens after blocks hit bottom
 // what happens when all blocks in line are same
 // what happens when vertically 10 blocks are # (game ends)
-
-// - - - - -
-// # - - - -
-// # - - - -
-// # - - - -
-// # - - - -
-// - - - - -
