@@ -10,52 +10,25 @@ void rotateblocks(int I[4][4]) {
         }
         a++;
     }
-
     return;
 }
 
-void shiftleft(int I[4][4], int* rotate) {
-    int abc = (*rotate)%2;
+void shiftleft(int I[4][4], int rotate) {
     int j=0;
-    if (abc==1) {
-        for (int i = 0; i < 4; i++) {
-            for (j=0; j<4; j++) {
-                if ((j+2)>3) {
-                    break;
-                }
-                int temp = I[i][j];
-                I[i][j] = I[i][j+2];
-                I[i][j+2] = temp;
-            }
-        }
-    } else {
-        for (int i = 0; i < 4; i++) {
-            for (j=0; j<4; j++) {
-                if ((j+2)>3) {
-                    break;
-                }
-                int temp = I[i][j];
-                I[i][j] = I[i][j+2];
-                I[i][j+2] = temp;
-            }
-        }
         for (int i = 0; i < 4; i++) {
             for (j=0; j<4; j++) {
                 if ((j+1)>3) {
                     break;
                 }
-                int temp = I[j][i];
-                I[j][i] = I[j][i+1];
-                I[j][i+1] = temp;
+                int temp = I[i][j];
+                I[i][j] = I[i][j+1];
+                I[i][j+1] = temp;
             }
         }
-    }
-
     return;
 }
 
 void reverse(int I[4][4]) {
-    
     for (int i=0; i<4; i++) {
         for (int j=0; j<2; j++) {
             int temp = I[i][3-j];
@@ -63,18 +36,16 @@ void reverse(int I[4][4]) {
             I[i][j] = temp;
         }
     }
-
     return;
 }
 
-int main() {
+int main() { 
     int I[4][4] = {
-        {1, 1, 1, 0},
-        {1, 1, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
+        {1, 0, 0, 0},
+        {1, 0, 0, 0},
+        {1, 0, 0, 0},
+        {1, 0, 0, 0}
     };
-
     int rotate = 0;
     for (int i=0; i<5; i++) {
         for (int i=0; i<4; i++) {
@@ -84,12 +55,9 @@ int main() {
             printf("\n");
         }
         printf("\n");
-
         rotateblocks(I);
         reverse(I);
-
-        shiftleft(I, &rotate);
+        // shiftleft(I);
     }
-
     return 0;
 }
