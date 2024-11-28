@@ -9,17 +9,13 @@
 #define rows 15
 #define columns 10
 
-void generateblocks(char grid[rows][columns], int *block) {
+void generateblocks(char grid[rows][columns]) {
   srand(time(NULL));
 
   int retry = 0;
-  // int possibleblocks[7] = {1, 2, 3, 4, 5, 6, 7};
-  for (; retry == 0;) {
+  while (retry == 0) {
     int generate = rand() % 7 + 1;
-    // int generate = 7;
-    *block = generate;
-    int start, start1, start2, start3, start4, start5, start6, end;
-    int check;
+    int start, check;
     switch (generate) {
       case 1:  // block O
         check = 0;
@@ -41,13 +37,13 @@ void generateblocks(char grid[rows][columns], int *block) {
 
       case 2:  // block I
         check = 0;
-        start2 = rand() % (columns - 2) + 1;
+        start = rand() % (columns - 2) + 1;
         for (int i = 0; i < 4; i++) {
-          if (grid[i][start2] == '-') check++;
+          if (grid[i][start] == '-') check++;
         }
         if (check == 4) {
           for (int j = 0; j < 4; j++) {
-            grid[j][start2] = '#';
+            grid[j][start] = '#';
           }
           retry = 1;
         }
@@ -55,19 +51,19 @@ void generateblocks(char grid[rows][columns], int *block) {
 
       case 3:  // block S
         check = 0;
-        end = rand() % (columns - 4) + 3;
-        for (int i = end; i > (end - 2); i--) {
+        start = rand() % (columns - 4) + 3;
+        for (int i = start; i > (start - 2); i--) {
           if (grid[0][i] == '-') check++;
         }
-        for (int i = end - 1; i > (end - 3); i--) {
+        for (int i = start - 1; i > (start - 3); i--) {
           if (grid[1][i] == '-') check++;
         }
 
         if (check == 4) {
-          for (int i = end; i > (end - 2); i--) {
+          for (int i = start; i > (start - 2); i--) {
             grid[0][i] = '#';
           }
-          for (int i = end - 1; i > (end - 3); i--) {
+          for (int i = start - 1; i > (start - 3); i--) {
             grid[1][i] = '#';
           }
           retry = 1;
@@ -76,18 +72,18 @@ void generateblocks(char grid[rows][columns], int *block) {
 
       case 4:  // block Z
         check = 0;
-        start3 = rand() % (columns - 2) + 2;
-        for (int i = start3 - 1; i < (start3 + 1); i++) {
+        start = rand() % (columns - 2) + 2;
+        for (int i = start - 1; i < (start + 1); i++) {
           if (grid[0][i] == '-') check++;
         }
-        for (int i = start3; i < (start3 + 2); i++) {
+        for (int i = start; i < (start + 2); i++) {
           if (grid[1][i] == '-') check++;
         }
         if (check == 4) {
-          for (int i = start3 - 1; i < (start3 + 1); i++) {
+          for (int i = start - 1; i < (start + 1); i++) {
             grid[0][i] = '#';
           }
-          for (int i = start3; i < (start3 + 2); i++) {
+          for (int i = start; i < (start + 2); i++) {
             grid[1][i] = '#';
           }
           retry = 1;
@@ -96,48 +92,48 @@ void generateblocks(char grid[rows][columns], int *block) {
 
       case 5:  // block L
         check = 0;
-        start4 = rand() % (columns - 3) + 1;
+        start = rand() % (columns - 3) + 1;
         for (int i = 0; i < 3; i++) {
-          if (grid[i][start4] == '-') check++;
+          if (grid[i][start] == '-') check++;
         }
-        if (grid[2][start4 + 1] == '-') check++;
+        if (grid[2][start + 1] == '-') check++;
         if (check == 4) {
           for (int i = 0; i < 3; i++) {
-            grid[i][start4] = '#';
+            grid[i][start] = '#';
           }
-          grid[2][start4 + 1] = '#';
+          grid[2][start + 1] = '#';
           retry = 1;
         }
         break;
 
       case 6:  // block J
         check = 0;
-        start5 = rand() % (columns - 3) + 2;
+        start = rand() % (columns - 3) + 2;
         for (int i = 0; i < 3; i++) {
-          if (grid[i][start5] == '-') check++;
+          if (grid[i][start] == '-') check++;
         }
-        if (grid[2][start5 - 1] == '-') check++;
+        if (grid[2][start - 1] == '-') check++;
         if (check == 4) {
           for (int i = 0; i < 3; i++) {
-            grid[i][start5] = '#';
+            grid[i][start] = '#';
           }
-          grid[2][start5 - 1] = '#';
+          grid[2][start - 1] = '#';
           retry = 1;
         }
         break;
 
       case 7:  // block T
         check = 0;
-        start6 = rand() % (columns - 4 - 2) + 3;
-        for (int i = start6; i < (start6 + 3); i++) {
+        start = rand() % (columns - 4 - 2) + 3;
+        for (int i = start; i < (start + 3); i++) {
           if (grid[0][i] == '-') check++;
         }
-        if (grid[1][start6 + 1] == '-') check++;
+        if (grid[1][start + 1] == '-') check++;
         if (check == 4) {
-          for (int i = start6; i < (start6 + 3); i++) {
+          for (int i = start; i < (start + 3); i++) {
             grid[0][i] = '#';
           }
-          grid[1][start6 + 1] = '#';
+          grid[1][start + 1] = '#';
           retry = 1;
         }
         break;
@@ -150,17 +146,93 @@ void generateblocks(char grid[rows][columns], int *block) {
   return;
 }
 
-void startGame() {
-  printf("Welcome to Tetris Game. Press 'X' to end the game");  // Menu screen
-  char start;
-  scanf("%c", &start);
-  if (start >= 32 && start <= 127) {
-    return;
-  } else {
+void gameInstructions() {
     system("cls");
-    startGame();
-  }
-  return;
+    char array[15][100] = {
+        "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X",
+        "X                                                                     X",
+        "X            INITIALLY THE GRID IS POPULATED WITH DASHES (-)          X",
+        "X             RANDOM BLOCKS (#) ARE GENERATED FROM THE TOP            X",
+        "X        THE BLOCKS MOVE DOWN ON USER INPUT OR EVERY 2 SECONDS        X",
+        "X   THE BLOCKS STACK ON TOP OF EACH OTHER ONCE THEY CAN'T MOVE DOWN   X",
+        "X         ONCE THE BLOCKS ARE STACKED, THEY BECOME FIXED ($)          X",
+        "X   A HORIZONTAL ROW CONTAINING ALL ($) AND NO (-) WILL BE REMOVED    X",
+        "X              AND THE SCORE WILL BE IMPLEMENTED BY ONE               X",
+        "X                       PRESS 'A' TO MOVE LEFT                        X",
+        "X                       PRESS 'D' TO MOVE RIGHT                       X",
+        "X                       PRESS 'S' TO MOVE DOWN                        X",
+        "X                PRESS 'X' AT ANY TIME TO END THE GAME                X",
+        "X                                                                     X",
+        "X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X"
+    };
+    for (int i=0; i<15; i++) {
+        printf("\n%s", array[i]);
+    }
+    printf("\n\n- - - - - - - - - - Press 'X' to return to home page - - - - - - - - - -");
+    int instructions = 0;
+    char returntohome = '\0';
+    while (instructions == 0) {
+        if (_kbhit()) {
+            returntohome = _getch();
+            if (returntohome == 'X') {
+                return;
+            }
+        }
+    }
+    return;
+}
+
+void startGame(int *end, int *score) {
+    char array[9][50] = {
+        "X X X X X X X X X X X X X X X X X", 
+        "X                               X",
+        "X       WELCOME TO TETRIS       X",
+        "X                               X",
+        "X         1. START GAME         X",
+        "X        2. INSTRUCTIONS        X",
+        "X         3. QUIT GAME          X",
+        "X                               X",
+        "X X X X X X X X X X X X X X X X X"
+    };
+    system("cls");
+    for (int i=0; i<9; i++) {
+        printf("%s\n", array[i]);
+    }
+
+    char gamechoice = '\0';
+    int startscreen = 1;
+    while (startscreen) {
+        if (_kbhit()) {
+            gamechoice = _getch();
+        }
+        switch (gamechoice) {
+            case '1':
+                printf("Initiating Game...");
+                *end = 0;
+                *score = 0;
+                sleep(1);
+                return;
+                break;
+            case '2':
+                printf("Case 2");
+                gameInstructions();
+                gamechoice = '\0';
+                system("cls");
+                for (int i=0; i<9; i++) {
+                    printf("%s\n", array[i]);
+                }
+                break;
+            case '3':
+                printf("\n\nExiting the Program...");
+                sleep(1);
+                system("cls");
+                exit(0);
+                break;
+            default: 
+                break;
+        }
+    }
+    return;
 }
 
 void printgrid(char grid[rows][columns], int *score) {  // function to print grid whenever needed
@@ -300,15 +372,13 @@ int checkblock(char grid[rows][columns]) {
 void gameEnd(char grid[rows][columns], int *end) {
   for (int i = 0; i < columns; i++) {
     if (grid[1][i] == '$') {
-      (*end)++;
+      *end = 1;
     }
   }
   return;
 }
 
-int main() {
-  char grid[rows][columns];
-  // initialize the grid:
+void initializeGrid(char grid[rows][columns]) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < columns; j++) {
       grid[i][j] = 'X';  
@@ -319,19 +389,28 @@ int main() {
       grid[i][j] = '-';
     }
   }
+  return;
+}
 
-  startGame();
+int main() {
+  char grid[rows][columns];
+  initializeGrid(grid);
+  
+  int end = 1, score = 0;
+  startGame(&end, &score);
 
-  int block = 0, score = 0, end = 0;
+  int block = 0;
+
   while (end == 0) {
     if (checkblock(grid)) generateblocks(grid, &block);
     
+    system("cls");
     printgrid(grid, &score);
 
     int timeout = 2;
     char choice = '\0';
     clock_t start_time = clock();  
-    printf("\nEnter choice: ");
+    printf("\n- - - Enter choice: - - -");
     while ((clock() - start_time) / CLOCKS_PER_SEC < timeout) {
         if (_kbhit()) {  
           choice = _getch();  
@@ -349,6 +428,8 @@ int main() {
           movedown(grid);
           break;
         case 'X':
+          printf("\nEnding game...");
+          sleep(1);
           end = 1;
           break;
         default:
@@ -364,9 +445,11 @@ int main() {
     system("cls");
 
     if (end == 1) {
-      system("cls");
-      printgrid(grid, &score);
-      printf("Game ended. You finished with %d points", score);
+      sleep(1);
+      printf("\n\n- - - - Game ended. You finished with %d points - - - -", score);
+      sleep(1);
+      initializeGrid(grid);
+      startGame(&end, &score);
     }
   }
   return 0;
